@@ -315,13 +315,36 @@ function checkAnswer(selected) {
   if (correct && mode === "pre") preScore++;
   if (correct && mode === "post") postScore++;
 
+  // PRE-TEST
+  if (mode === "pre") {
+    screen.innerHTML = `
+      <div class="feedback ${correct ? "correct" : "incorrect"}">
+        <h2>${correct ? "✓ Correct!" : "✗ Incorrect"}</h2>
+        <p>
+          ${correct
+            ? "Good job."
+            : "You will learn more about this topic in the lesson."}
+        </p>
+      </div>
+
+      <button onclick="nextQuestion()">Next Question</button>
+    `;
+    return;
+  }
+
+  // POST-TEST
   screen.innerHTML = `
-    ${header("Answer Feedback")}
     <div class="feedback ${correct ? "correct" : "incorrect"}">
-      <strong>${correct ? "Correct!" : "Not quite."}</strong>
-      <p>${correct ? "Good job." : "Correct answer: " + q.answer}</p>
+      <h2>${correct ? "✓ Correct!" : "✗ Incorrect"}</h2>
+
+      ${
+        !correct
+          ? `<p><strong>Correct Answer:</strong> ${q.answer}</p>`
+          : ""
+      }
     </div>
-    <button onclick="nextQuestion()">Next</button>
+
+    <button onclick="nextQuestion()">Next Question</button>
   `;
 }
 
